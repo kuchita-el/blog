@@ -32,5 +32,10 @@ users テーブルと authorities テーブルにユーザー情報を登録す�
 
 `/login` にアクセスし、登録したユーザー情報でログインする。
 
+## 技術情報
 
-
+- [Spring Boot](https://spring.pleiades.io/spring-boot/docs/current/reference/html)
+- [Spring Security](https://spring.pleiades.io/spring-security/reference/html)
+- [Spring Data JDBC](https://spring.pleiades.io/spring-data/jdbc/docs/current/reference/html)
+- [Thymeleaf](https://www.thymeleaf.org/doc/tutorials/3.1/usingthymeleaf.html)
+- [Materialize CSS](https://materializecss.com/)
