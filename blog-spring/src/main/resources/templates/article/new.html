@@ -53,14 +53,16 @@
                 <form th:action="@{/article/post}" method="post" th:object="${postArticleForm}">
                     <div class="row">
                         <div class="input-field col s12">
-                            <input placeholder="見出し" id="headline" type="text" class="validate" th:field="*{headline}">
+                            <input placeholder="見出し" id="headline" type="text" class="validate" th:field="*{headline}" th:errorclass="invalid">
                             <label for="headline">見出し</label>
+                            <span class="helper-text" th:data-error="${error}" th:each="error: ${#fields.errors('headline')}" th:if="${#fields.hasErrors('headline')}"></span>
                         </div>
                     </div>
                     <div class="row">
                         <div class="input-field col s12">
-                            <textarea placeholder="本文" id="body" class="materialize-textarea" th:field="*{body}"></textarea>
+                            <textarea placeholder="本文" id="body" class="materialize-textarea" th:field="*{body}" th:errorclass="invalid"></textarea>
                             <label for="body">本文</label>
+                            <span class="helper-text" th:data-error="${error}" th:each="error: ${#fields.errors('body')}" th:if="${#fields.hasErrors('body')}"></span>
                         </div>
                     </div>
                     <div class="row">
