@@ -6,7 +6,6 @@ import org.springframework.stereotype.Controller
 import org.springframework.ui.ModelMap
 import org.springframework.validation.BindingResult
 import org.springframework.validation.annotation.Validated
-import org.springframework.web.bind.WebDataBinder
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.bind.support.SessionStatus
 import org.springframework.web.servlet.ModelAndView
@@ -28,13 +27,12 @@ class PostArticleController(private val articleRepository: ArticleRepository) {
         return PostArticleForm()
     }
 
-    @InitBinder
-    fun initBinder(binder: WebDataBinder) {
-        binder.initDirectFieldAccess()
-    }
-
     @GetMapping("article/new")
-    fun viewForm(@ModelAttribute(FORM_MODEL_NAME) postArticleForm: PostArticleForm, @RequestParam(name = "back", defaultValue = "false") back: Boolean, modelMap: ModelMap): ModelAndView {
+    fun viewForm(
+        @ModelAttribute(FORM_MODEL_NAME) postArticleForm: PostArticleForm,
+        @RequestParam(name = "back", defaultValue = "false") back: Boolean,
+        modelMap: ModelMap
+    ): ModelAndView {
         val view = ModelAndView("article/new")
         view.addObject(FORM_MODEL_NAME, if (back) postArticleForm() else postArticleForm)
         val maybeBindingResult = modelMap[ERROR_ATTRIBUTE_NAME]
@@ -56,11 +54,17 @@ class PostArticleController(private val articleRepository: ArticleRepository) {
             return RedirectView("new")
         }
 
-        val article = Article(UUID.randomUUID().toString(), postArticleForm.headline, postArticleForm.body, Instant.now())
+        val article =
+            Article(UUID.randomUUID().toString(), postArticleForm.headline, postArticleForm.body, Instant.now())
         articleRepository.save(article)
         sessionStatus.setComplete()
         return RedirectView("/")
     }
 }
 
-data class PostArticleForm(@get:NotEmpty(message = "見出しを入力してください。") @get:Size(max = 100, message = "見出しは100文字まで入力できます。") val headline: String = "", @get:NotEmpty(message = "本文を入力してください。") val body: String = "")
+data class PostArticleForm(
+    @get:NotEmpty(message = "見出しを入力してください。") @get:Size(
+        max = 100,
+        message = "見出しは100文字まで入力できます。"
+    ) var headline: String = "", @get:NotEmpty(message = "本文を入力してください。") var body: String = ""
+)
